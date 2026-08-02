@@ -12,11 +12,8 @@ return(
 
 
 <img
-
-src="http://127.0.0.1:8000/camera/video"
-
-alt="Live Factory Feed"
-
+    src="https://factory-safety-model2.onrender.com/camera/video"
+    alt="Live Factory Feed"
 />
 
 

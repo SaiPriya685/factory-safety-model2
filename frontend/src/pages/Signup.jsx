@@ -4,45 +4,50 @@ import {useNavigate} from "react-router-dom";
 import api from "../services/api";
 
 
-function Login(){
+function Signup(){
 
 const navigate = useNavigate();
 
 
+const [name,setName]=useState("");
 const [email,setEmail]=useState("");
 const [password,setPassword]=useState("");
 
 
 
-const login = async()=>{
+const signup = async()=>{
 
 
 try{
 
-const response =
+
 await api.post(
-"/auth/login",
+"/auth/register",
 {
+name,
 email,
 password
 }
 );
 
 
-localStorage.setItem(
-"token",
-response.data.access_token
+alert(
+"Registration successful. Please login."
 );
 
 
-navigate("/dashboard");
+navigate("/");
 
 
 }
 
 catch(error){
 
-alert("Login failed");
+console.log(error);
+
+alert(
+"Signup failed"
+);
 
 }
 
@@ -55,9 +60,26 @@ return(
 
 <div>
 
+
 <h1>
 AI Factory Safety Copilot
 </h1>
+
+
+<h2>
+Create Account
+</h2>
+
+
+
+<input
+placeholder="Name"
+value={name}
+onChange={
+e=>setName(e.target.value)
+}
+/>
+
 
 
 <input
@@ -67,6 +89,7 @@ onChange={
 e=>setEmail(e.target.value)
 }
 />
+
 
 
 <input
@@ -79,21 +102,25 @@ e=>setPassword(e.target.value)
 />
 
 
-<button onClick={login}>
-Login
+
+<button onClick={signup}>
+Register
 </button>
+
+
 <p>
 
-New user?
+Already have account?
 
 <button
-onClick={()=>navigate("/signup")}
+onClick={()=>navigate("/")}
 >
-Create Account
+Login
 </button>
 
 
 </p>
+
 
 </div>
 
@@ -103,4 +130,4 @@ Create Account
 }
 
 
-export default Login;
+export default Signup;

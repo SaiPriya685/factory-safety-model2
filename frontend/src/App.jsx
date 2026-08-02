@@ -5,37 +5,51 @@ import {
 } from "react-router-dom";
 
 import { ToastContainer } from "react-toastify";
+
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 
 
 function App(){
 
-  return(
+return(
 
-    <BrowserRouter>
+<BrowserRouter>
 
-      <Routes>
+<Routes>
 
-        <Route 
-          path="/"
-          element={<Login />}
-        />
 
-        <Route
-          path="/dashboard"
-          element={<Dashboard />}
-        />
+<Route
+path="/"
+element={<Login />}
+/>
 
-      </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-    />
 
-    </BrowserRouter>
+<Route
+path="/signup"
+element={<Signup />}
+/>
 
-  )
+
+<Route
+path="/dashboard"
+element={<Dashboard />}
+/>
+
+
+</Routes>
+
+
+<ToastContainer
+position="top-right"
+autoClose={5000}
+/>
+
+
+</BrowserRouter>
+
+)
 
 }
 

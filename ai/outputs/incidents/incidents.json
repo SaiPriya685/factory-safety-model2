@@ -20915,5 +20915,304 @@
                 "confidence": 0.785
             }
         ]
+    },
+    {
+        "incident_id": "5f6d0491",
+        "timestamp": "2026-08-02 13:01:54",
+        "location": "Factory Floor",
+        "status": "OPEN",
+        "alert": {
+            "time": "2026-08-02 13:01:54",
+            "risk_level": "CRITICAL",
+            "risk_score": 100,
+            "violations": [
+                {
+                    "type": "Missing Helmet",
+                    "severity": "HIGH",
+                    "confidence": 0.908
+                },
+                {
+                    "type": "Fire Detected",
+                    "severity": "CRITICAL",
+                    "confidence": 0.873
+                }
+            ],
+            "reasons": [
+                "Missing Helmet",
+                "Fire Detected"
+            ],
+            "recommended_action": "Immediate evacuation and emergency response required",
+            "message": "\ud83d\udea8 CRITICAL ALERT | Emergency risk detected: Missing Helmet, Fire Detected"
+        },
+        "risk": {},
+        "violations": [
+            {
+                "type": "Missing Helmet",
+                "severity": "HIGH",
+                "confidence": 0.908
+            },
+            {
+                "type": "Fire Detected",
+                "severity": "CRITICAL",
+                "confidence": 0.873
+            }
+        ],
+        "detections": [
+            {
+                "class_id": 2,
+                "name": "no_helmet",
+                "confidence": 0.908
+            },
+            {
+                "class_id": 5,
+                "name": "fire",
+                "confidence": 0.873
+            },
+            {
+                "class_id": 3,
+                "name": "safety_vest",
+                "confidence": 0.813
+            }
+        ]
+    },
+    {
+        "incident_id": "4e348b1b",
+        "timestamp": "2026-08-02 13:10:22",
+        "location": "Factory Floor",
+        "status": "OPEN",
+        "alert": {
+            "time": "2026-08-02 13:10:22",
+            "risk_level": "HIGH",
+            "risk_score": 45,
+            "violations": [
+                {
+                    "type": "Missing Helmet",
+                    "severity": "HIGH",
+                    "confidence": 0.916
+                }
+            ],
+            "reasons": [
+                "Missing Helmet"
+            ],
+            "recommended_action": "Supervisor attention required",
+            "message": "\u26a0\ufe0f HIGH RISK ALERT | Missing Helmet"
+        },
+        "risk": {},
+        "violations": [
+            {
+                "type": "Missing Helmet",
+                "severity": "HIGH",
+                "confidence": 0.916
+            }
+        ],
+        "detections": [
+            {
+                "class_id": 2,
+                "name": "no_helmet",
+                "confidence": 0.916
+            },
+            {
+                "class_id": 5,
+                "name": "fire",
+                "confidence": 0.847
+            },
+            {
+                "class_id": 3,
+                "name": "safety_vest",
+                "confidence": 0.845
+            },
+            {
+                "class_id": 4,
+                "name": "no_vest",
+                "confidence": 0.682
+            }
+        ]
+    },
+    {
+        "incident_id": "29deaf5f",
+        "timestamp": "2026-08-02 13:10:23",
+        "location": "Factory Floor",
+        "status": "OPEN",
+        "alert": {
+            "time": "2026-08-02 13:10:23",
+            "risk_level": "CRITICAL",
+            "risk_score": 100,
+            "violations": [
+                {
+                    "type": "Missing Helmet",
+                    "severity": "HIGH",
+                    "confidence": 0.913
+                },
+                {
+                    "type": "Fire Detected",
+                    "severity": "CRITICAL",
+                    "confidence": 0.834
+                }
+            ],
+            "reasons": [
+                "Missing Helmet",
+                "Fire Detected"
+            ],
+            "recommended_action": "Immediate evacuation and emergency response required",
+            "message": "\ud83d\udea8 CRITICAL ALERT | Emergency risk detected: Missing Helmet, Fire Detected"
+        },
+        "risk": {},
+        "violations": [
+            {
+                "type": "Missing Helmet",
+                "severity": "HIGH",
+                "confidence": 0.913
+            },
+            {
+                "type": "Fire Detected",
+                "severity": "CRITICAL",
+                "confidence": 0.834
+            }
+        ],
+        "detections": [
+            {
+                "class_id": 2,
+                "name": "no_helmet",
+                "confidence": 0.913
+            },
+            {
+                "class_id": 5,
+                "name": "fire",
+                "confidence": 0.834
+            },
+            {
+                "class_id": 3,
+                "name": "safety_vest",
+                "confidence": 0.757
+            }
+        ]
+    },
+    {
+        "incident_id": "3f532f24",
+        "timestamp": "2026-08-02 13:16:55",
+        "location": "Factory Floor",
+        "status": "OPEN",
+        "alert": {
+            "time": "2026-08-02 13:16:55",
+            "risk_level": "CRITICAL",
+            "risk_score": 100,
+            "violations": [
+                {
+                    "type": "Missing Helmet",
+                    "severity": "HIGH",
+                    "confidence": 0.9
+                },
+                {
+                    "type": "Fire Detected",
+                    "severity": "CRITICAL",
+                    "confidence": 0.895
+                }
+            ],
+            "reasons": [
+                "Missing Helmet",
+                "Fire Detected"
+            ],
+            "recommended_action": "Immediate evacuation and emergency response required",
+            "message": "\ud83d\udea8 CRITICAL ALERT | Emergency risk detected: Missing Helmet, Fire Detected"
+        },
+        "risk": {},
+        "violations": [
+            {
+                "type": "Missing Helmet",
+                "severity": "HIGH",
+                "confidence": 0.9
+            },
+            {
+                "type": "Fire Detected",
+                "severity": "CRITICAL",
+                "confidence": 0.895
+            }
+        ],
+        "detections": [
+            {
+                "class_id": 3,
+                "name": "safety_vest",
+                "confidence": 0.924
+            },
+            {
+                "class_id": 2,
+                "name": "no_helmet",
+                "confidence": 0.9
+            },
+            {
+                "class_id": 5,
+                "name": "fire",
+                "confidence": 0.895
+            },
+            {
+                "class_id": 4,
+                "name": "no_vest",
+                "confidence": 0.828
+            }
+        ]
+    },
+    {
+        "incident_id": "bae0c85a",
+        "timestamp": "2026-08-02 13:19:12",
+        "location": "Factory Floor",
+        "status": "OPEN",
+        "alert": {
+            "time": "2026-08-02 13:19:12",
+            "risk_level": "CRITICAL",
+            "risk_score": 100,
+            "violations": [
+                {
+                    "type": "Fire Detected",
+                    "severity": "CRITICAL",
+                    "confidence": 0.869
+                },
+                {
+                    "type": "Missing Helmet",
+                    "severity": "HIGH",
+                    "confidence": 0.859
+                }
+            ],
+            "reasons": [
+                "Fire Detected",
+                "Missing Helmet"
+            ],
+            "recommended_action": "Immediate evacuation and emergency response required",
+            "message": "\ud83d\udea8 CRITICAL ALERT | Emergency risk detected: Fire Detected, Missing Helmet"
+        },
+        "risk": {},
+        "violations": [
+            {
+                "type": "Fire Detected",
+                "severity": "CRITICAL",
+                "confidence": 0.869
+            },
+            {
+                "type": "Missing Helmet",
+                "severity": "HIGH",
+                "confidence": 0.859
+            }
+        ],
+        "detections": [
+            {
+                "class_id": 3,
+                "name": "safety_vest",
+                "confidence": 0.896
+            },
+            {
+                "class_id": 5,
+                "name": "fire",
+                "confidence": 0.869
+            },
+            {
+                "class_id": 2,
+                "name": "no_helmet",
+                "confidence": 0.859
+            },
+            {
+                "class_id": 4,
+                "name": "no_vest",
+                "confidence": 0.837
+            }
+        ]
     }
 ]

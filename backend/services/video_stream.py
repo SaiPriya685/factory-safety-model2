@@ -86,7 +86,7 @@ def generate_frames():
 
         try:
 
-
+            print("Streaming frame...")
             yield (
 
                 b"--frame\r\n"

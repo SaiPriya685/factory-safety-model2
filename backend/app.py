@@ -27,6 +27,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "https://factory-safety-model2.vercel.app",
+        "https://factory-safety-model2.vercel.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
