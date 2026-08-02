@@ -2,20 +2,10 @@
 camera.py
 
 Camera manager for AI Factory Safety Copilot.
-
-Responsibilities
-----------------
-- Open webcam
-- Configure resolution
-- Read frames
-- Calculate FPS
-- Handle camera failures
 """
 
-from __future__ import annotations
-
-import time
 import cv2
+import time
 
 from ai.utils.config import (
     CAMERA_ID,
@@ -30,11 +20,8 @@ logger = Logger.get_logger("Camera")
 
 
 class CameraManager:
-    """
-    Handles webcam/video stream.
-    """
 
-    def __init__(self) -> None:
+    def __init__(self):
 
         self.cap = cv2.VideoCapture(CAMERA_ID)
 
@@ -49,12 +36,15 @@ class CameraManager:
 
         logger.info("Camera initialized successfully.")
 
+    
     def read(self):
+
+        if self.cap is None:
+            return None
 
         success, frame = self.cap.read()
 
         if not success:
-            logger.warning("Failed to read frame.")
             return None
 
         return frame
@@ -62,18 +52,15 @@ class CameraManager:
     def calculate_fps(self):
 
         current_time = time.time()
-
         fps = 1 / (current_time - self.previous_time)
-
         self.previous_time = current_time
 
         return int(fps)
-
+    
+    
     def release(self):
 
-        if self.cap.isOpened():
+        if self.cap is not None and self.cap.isOpened():
             self.cap.release()
-
-        cv2.destroyAllWindows()
-
-        logger.info("Camera released.")
+            self.cap = None
+            logger.info("Camera released.")

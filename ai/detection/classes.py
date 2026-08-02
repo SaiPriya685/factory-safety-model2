@@ -2,7 +2,6 @@
 Factory safety object classes.
 """
 
-
 SAFETY_CLASSES = {
 
     0: "person",

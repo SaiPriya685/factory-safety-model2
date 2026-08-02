@@ -9,6 +9,7 @@ based on detected violations.
 from ai.utils.logger import Logger
 
 
+
 class RiskEngine:
 
 
@@ -17,6 +18,7 @@ class RiskEngine:
         self.logger = Logger.get_logger(
             "RiskEngine"
         )
+
 
         self.logger.info(
             "Risk engine initialized."
@@ -27,13 +29,17 @@ class RiskEngine:
     def calculate(self, analysis):
 
 
-        risk_score = 0
-
-
         violations = analysis.get(
             "violations",
             []
         )
+
+
+        risk_score = 0
+
+
+        reasons = []
+
 
 
         for violation in violations:
@@ -41,33 +47,53 @@ class RiskEngine:
 
             severity = violation["severity"]
 
+            confidence = violation.get(
+                "confidence",
+                0.5
+            )
 
+
+            # Severity weights
 
             if severity == "CRITICAL":
 
-                risk_score += 80
-
+                weight = 80
 
 
             elif severity == "HIGH":
 
-                risk_score += 60
-
+                weight = 50
 
 
             elif severity == "MEDIUM":
 
-                risk_score += 30
-
+                weight = 25
 
 
             else:
 
-                risk_score += 10
+                weight = 10
 
 
 
-        # Limit score
+            # confidence based score
+
+            score = int(
+                weight * confidence
+            )
+
+
+            risk_score += score
+
+
+
+            reasons.append(
+                violation["type"]
+            )
+
+
+
+        # Maximum score
 
         risk_score = min(
             risk_score,
@@ -76,28 +102,63 @@ class RiskEngine:
 
 
 
-        if risk_score >= 70:
+        # Risk classification
+
+        if risk_score >= 75:
+
 
             risk_level = "CRITICAL"
 
 
-        elif risk_score >= 40:
+
+            action = (
+                "Immediate evacuation "
+                "and emergency response required"
+            )
+
+
+
+        elif risk_score >= 45:
+
 
             risk_level = "HIGH"
 
 
+
+            action = (
+                "Supervisor attention required"
+            )
+
+
+
         elif risk_score > 0:
+
 
             risk_level = "MEDIUM"
 
 
+
+            action = (
+                "Monitor safety condition"
+            )
+
+
+
         else:
+
 
             risk_level = "LOW"
 
 
 
+            action = (
+                "Normal operation"
+            )
+
+
+
         result = {
+
 
             "risk_score":
             risk_score,
@@ -108,7 +169,16 @@ class RiskEngine:
 
 
             "violations":
-            violations
+            violations,
+
+
+            "risk_reasons":
+            reasons,
+
+
+            "recommended_action":
+            action
+
 
         }
 

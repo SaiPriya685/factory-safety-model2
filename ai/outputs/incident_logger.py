@@ -4,17 +4,23 @@ incident_logger.py
 Stores factory safety incidents.
 """
 
+
 import json
 import os
+import uuid
+
 from datetime import datetime
 
 from ai.utils.logger import Logger
 
 
+
 class IncidentLogger:
 
 
+
     def __init__(self):
+
 
         self.logger = Logger.get_logger(
             "IncidentLogger"
@@ -31,8 +37,9 @@ class IncidentLogger:
         )
 
 
-        # duplicate prevention window
+        # seconds before same incident can appear again
         self.cooldown_seconds = 60
+
 
 
         os.makedirs(
@@ -41,10 +48,20 @@ class IncidentLogger:
         )
 
 
+
         if not os.path.exists(self.file):
 
-            with open(self.file,"w") as f:
-                json.dump([],f,indent=4)
+            with open(
+                self.file,
+                "w"
+            ) as f:
+
+                json.dump(
+                    [],
+                    f,
+                    indent=4
+                )
+
 
 
         self.logger.info(
@@ -53,60 +70,123 @@ class IncidentLogger:
 
 
 
-    def is_duplicate(self, incident):
 
 
-        with open(self.file,"r") as f:
-            incidents=json.load(f)
+    def load_incidents(self):
+
+
+        with open(
+            self.file,
+            "r"
+        ) as f:
+
+            return json.load(f)
 
 
 
-        if len(incidents)==0:
+
+
+    def get_violation_signature(
+        self,
+        violations
+    ):
+
+
+        """
+        Creates unique violation identity.
+
+        Example:
+
+        [
+          Fire Detected,
+          Missing Helmet
+        ]
+
+        becomes:
+
+        Fire Detected|Missing Helmet
+        """
+
+
+        types = sorted(
+            [
+                v["type"]
+                for v in violations
+            ]
+        )
+
+
+        return "|".join(types)
+
+
+
+
+
+    def is_duplicate(
+        self,
+        incident
+    ):
+
+
+        incidents = self.load_incidents()
+
+
+
+        if not incidents:
+
             return False
 
 
 
-        last_incident = incidents[-1]
-
-
-        last_time=datetime.strptime(
-            last_incident["timestamp"],
-            "%Y-%m-%d %H:%M:%S"
-        )
-
-
-        current_time=datetime.strptime(
+        current_time = datetime.strptime(
             incident["timestamp"],
             "%Y-%m-%d %H:%M:%S"
         )
 
 
 
-        difference = (
-            current_time-last_time
-        ).total_seconds()
-
-
-
-        old_types=set(
-            v["type"]
-            for v in last_incident["violations"]
-        )
-
-
-        new_types=set(
-            v["type"]
-            for v in incident["violations"]
+        new_signature = (
+            self.get_violation_signature(
+                incident["violations"]
+            )
         )
 
 
 
-        if (
-            old_types == new_types
-            and difference < self.cooldown_seconds
-        ):
+        for old in reversed(incidents):
 
-            return True
+
+            old_time = datetime.strptime(
+                old["timestamp"],
+                "%Y-%m-%d %H:%M:%S"
+            )
+
+
+
+            difference = (
+                current_time-old_time
+            ).total_seconds()
+
+
+
+            if difference > self.cooldown_seconds:
+
+                break
+
+
+
+            old_signature = (
+                self.get_violation_signature(
+                    old["violations"]
+                )
+            )
+
+
+
+            if old_signature == new_signature:
+
+
+                return True
 
 
 
@@ -119,56 +199,86 @@ class IncidentLogger:
     def save(
         self,
         alert,
-        analysis
+        analysis,
+        risk=None
     ):
 
 
-        incident={
 
-
-            "timestamp":
-            datetime.now().strftime(
-                "%Y-%m-%d %H:%M:%S"
-            ),
-
-
-
-            "alert":
-            alert,
+        violations = analysis.get(
+            "violations",
+            []
+        )
 
 
 
-            "violations":
-            analysis.get(
-                "violations",
-                []
-            ),
+        # no violations = no incident
+
+        if not violations:
+
+            return None
+
+
+        incident = {
+
+    "incident_id":
+        str(uuid.uuid4())[:8],
+
+    "timestamp":
+        datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        ),
+
+    "location":
+        "Factory Floor",
+
+    "status":
+        "OPEN",
+
+    "alert":
+        alert,
+
+    "risk":
+        risk if risk else {},
+
+    "violations":
+        analysis.get(
+            "violations",
+            []
+        ),
+
+    "detections":
+        analysis.get(
+            "detections",
+            []
+        ),
+
+}
+
+        
 
 
 
-            "detections":
-            analysis.get(
-                "detections",
-                []
-            )
-
-        }
 
 
+        if self.is_duplicate(
+            incident
+        ):
 
-        if self.is_duplicate(incident):
+
 
             self.logger.info(
                 "Duplicate incident ignored."
             )
 
+
             return None
 
 
 
-        with open(self.file,"r") as f:
 
-            incidents=json.load(f)
+
+        incidents = self.load_incidents()
 
 
 
@@ -178,7 +288,11 @@ class IncidentLogger:
 
 
 
-        with open(self.file,"w") as f:
+        with open(
+            self.file,
+            "w"
+        ) as f:
+
 
             json.dump(
                 incidents,
@@ -191,6 +305,7 @@ class IncidentLogger:
         self.logger.warning(
             "Safety incident saved."
         )
+
 
 
         return incident

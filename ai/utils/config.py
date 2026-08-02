@@ -62,7 +62,7 @@ SMOKE_MODEL = WEIGHTS_DIR / "yolo11n.pt"
 # DETECTION SETTINGS
 # =============================================================================
 
-CONFIDENCE_THRESHOLD = 0.50
+CONFIDENCE_THRESHOLD = 0.65
 
 IOU_THRESHOLD = 0.45
 

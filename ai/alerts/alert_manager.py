@@ -26,17 +26,41 @@ class AlertManager:
 
 
 
-    def generate_alert(self, risk_data):
+    def generate_alert(
+        self,
+        risk_data
+    ):
 
 
-        level = risk_data["risk_level"]
+        level = risk_data.get(
+            "risk_level",
+            "LOW"
+        )
 
-        score = risk_data["risk_score"]
+
+        score = risk_data.get(
+            "risk_score",
+            0
+        )
+
 
         violations = risk_data.get(
             "violations",
             []
         )
+
+
+        reasons = risk_data.get(
+            "risk_reasons",
+            []
+        )
+
+
+        action = risk_data.get(
+            "recommended_action",
+            "Monitor safety condition"
+        )
+
 
 
         alert = {
@@ -64,6 +88,16 @@ class AlertManager:
 
 
 
+            "reasons":
+            reasons,
+
+
+
+            "recommended_action":
+            action,
+
+
+
             "message":
             self.get_message(
                 level,
@@ -74,13 +108,19 @@ class AlertManager:
 
 
 
-        if level != "LOW":
+        if level in [
+            "CRITICAL",
+            "HIGH"
+        ]:
+
 
             self.logger.warning(
                 alert["message"]
             )
 
+
         else:
+
 
             self.logger.info(
                 alert["message"]
@@ -89,6 +129,7 @@ class AlertManager:
 
 
         return alert
+
 
 
 
@@ -105,18 +146,61 @@ class AlertManager:
 
 
             violation_names = [
+
                 v["type"]
+
                 for v in violations
+
             ]
 
 
-            return (
-                f"{level} risk detected: "
-                +
-                ", ".join(
-                    violation_names
+            if level == "CRITICAL":
+
+
+                return (
+
+                    "🚨 CRITICAL ALERT | "
+
+                    "Emergency risk detected: "
+
+                    +
+                    ", ".join(
+                        violation_names
+                    )
+
                 )
-            )
+
+
+
+            elif level == "HIGH":
+
+
+                return (
+
+                    "⚠️ HIGH RISK ALERT | "
+
+                    +
+                    ", ".join(
+                        violation_names
+                    )
+
+                )
+
+
+
+            elif level == "MEDIUM":
+
+
+                return (
+
+                    "⚠️ Safety warning: "
+
+                    +
+                    ", ".join(
+                        violation_names
+                    )
+
+                )
 
 
 
@@ -124,22 +208,26 @@ class AlertManager:
 
 
             "LOW":
-            "Normal operation. No safety threat.",
+
+            "Normal operation. No safety threat detected.",
 
 
 
             "MEDIUM":
-            "Warning: Possible safety concern detected.",
+
+            "Safety condition requires monitoring.",
 
 
 
             "HIGH":
-            "High risk! Immediate attention required.",
+
+            "Immediate supervisor attention required.",
 
 
 
             "CRITICAL":
-            "CRITICAL ALERT! Emergency response required."
+
+            "Emergency response required immediately."
 
         }
 
