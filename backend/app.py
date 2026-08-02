@@ -27,17 +27,14 @@ app.add_middleware(
 
     allow_origins=[
         "http://localhost:5173",
+        "https://ai-factory-safety.vercel.app",
     ],
 
     allow_credentials=True,
 
-    allow_methods=[
-        "*"
-    ],
+    allow_methods=["*"],
 
-    allow_headers=[
-        "*"
-    ],
+    allow_headers=["*"],
 )
 app.mount(
     "/evidence",
