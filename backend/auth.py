@@ -16,11 +16,12 @@ pwd_context = CryptContext(
 
 
 def hash_password(password):
+    password = password[:72]
     return pwd_context.hash(password)
-
-
 def verify_password(password, hashed):
+    password = password[:72]
     return pwd_context.verify(password, hashed)
+
 
 
 def create_access_token(data: dict):
